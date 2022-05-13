@@ -1,4 +1,6 @@
 # Proyek-Akhir-SBD-2
+Judul Proyek = VESMAS (Vehicle Services Management System)
+
 Deskripsi Singkat : Aplikasi untuk merekam rekam jejak service kendaraan (mobil dan motor). Sebuah akun bisa memiliki beberapa kendaraan yang nantinya setiap kali service dapat di rekam apa saja yang sudah di service.
 
 Deskripsi Lengkap : 
