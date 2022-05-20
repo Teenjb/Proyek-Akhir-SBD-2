@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
 import Login from './Login';
 import Admin from './Admin';
+import Register from './Register';
 import './index.css';
  
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
            <Routes>
                  <Route exact path='/' element={< Login />}></Route>
                  <Route exact path='/admin' element={< Admin />}></Route>
+                 <Route exact path='/register' element={< Register />}></Route>
           </Routes>
        </Router>
    );

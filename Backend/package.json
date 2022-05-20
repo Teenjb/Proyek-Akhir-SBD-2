@@ -4,14 +4,18 @@
   "description": "backend dari aplikasi record service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "fateen,adiva,valen,viony",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "node": "^17.7.2",
+    "nodemon": "^2.0.16",
     "pg": "^8.7.3"
   }
 }
