@@ -68,6 +68,14 @@ async function edit_sparepart(req,res) {
     }
 }
 
+async function delete_sparepart(req,res) {
+    try {
+        res.json(await vesmas.delete_sparepart(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
 module.exports = {
     login,
     register,
@@ -76,5 +84,6 @@ module.exports = {
     getByVIN_vehicle,
     getById_sparepart,
     add_vehicle,
-    edit_sparepart
+    edit_sparepart,
+    delete_sparepart
 }

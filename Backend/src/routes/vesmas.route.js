@@ -19,4 +19,6 @@ router.post('/kendaraan', vesmasController.add_vehicle);
 
 router.put('/sparepart', vesmasController.edit_sparepart);
 
+router.delete('/sparepart', vesmasController.delete_sparepart);
+
 module.exports = router;
