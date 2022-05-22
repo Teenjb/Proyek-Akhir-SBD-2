@@ -18,6 +18,24 @@ async function register(req, res) {
     }
 }
 
+async function getByVIN_serviceRecord(req, res) {
+    try {
+        console.log(req.body);
+        res.json(await vesmas.getByVIN_serviceRecord(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
+async function getByVIN_vehicle(req, res) {
+    try {
+        console.log(req.body);
+        res.json(await vesmas.getByVIN_vehicle(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
 async function add_sparepart(req, res) {
     try {
         res.json(await vesmas.add_sparepart(req.body));
@@ -54,6 +72,8 @@ module.exports = {
     login,
     register,
     add_sparepart,
+    getByVIN_serviceRecord,
+    getByVIN_vehicle,
     getById_sparepart,
     add_vehicle,
     edit_sparepart

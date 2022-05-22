@@ -6,7 +6,9 @@ router.get('/login', vesmasController.login);
 
 router.post('/register', vesmasController.register);
 
+router.get('/servicerecord', vesmasController.getByVIN_serviceRecord);
 
+router.get('/uservehicle', vesmasController.getByVIN_vehicle);
 
 /*----------admin----------------*/
 router.post('/sparepart', vesmasController.add_sparepart);

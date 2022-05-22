@@ -1,6 +1,7 @@
 const db = require('../configs/db.config');
 const helper = require('../utils/helper.util');
 
+//login
 async function login(vesmas) {
     const { username, password } = vesmas;
     const query = `SELECT * FROM user_account WHERE username = '${username}';`
@@ -15,6 +16,7 @@ async function login(vesmas) {
     return {message: 'wrong password'};
 }
 
+//registrasi akun baru
 async function register(vesmas) {
     const { username, password, admin } = vesmas;
     const query = `INSERT INTO user_account (username, password, admin) VALUES ('${username}', '${await helper.hashPassword(password)}', ${admin});`;
@@ -29,21 +31,33 @@ async function register(vesmas) {
     return {message};
 }
 
-async function getById_serviceRecord(vesmas) {
-    const { id } = vesmas;
-    const query = `SELECT service_record.service_date, spare_part.name, service_record.total_price FROM service_record JOIN user_vin ON service_record.vin = user_vin.vin JOIN sparePart_serviceRecord" ON service_record.id = "sparePart_serviceRecord".id_servicerecord JOIN spare_part ON "sparePart_serviceRecord".id_sparepart = spare_part.id
-    WHERE user_vin.vin == ${vin};`;
+//mencari service record berdasarkan id (username/VIN)
+async function getByVIN_serviceRecord(vesmas) {
+    const { username, vin } = vesmas;
+    const query = `select user_vin.username, service_record.vin, service_record.service_date, spare_part.name, service_record.total_price from service_record inner join user_vin on service_record.vin = user_vin.vin inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
     const result = await db.query(query);
     console.log(result.rows);
     if(result.rowCount == 0) {
-        return {message: 'sparepart not found'};
+        return {message: 'service record not found'};
     }
     return result.rows;
 }
 
+async function getByVIN_vehicle(vesmas) {
+    const { username, vin } = vesmas;
+    const query = `select user_vin.username, vehicle.vin, vehicle.brand, vehicle.name, vehicle.type from vehicle inner join user_vin on user_vin.vin = vehicle.vin where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
+    const result = await db.query(query);
+    console.log(result.rows);
+    if(result.rowCount == 0) {
+        return {message: 'vehicle not found'};
+    }
+    return result.rows;
+}
+
+//menambahkan informasi sparepart baru
 async function add_sparepart(vesmas) {
-    const {name, price} = vesmas;
-    const query = `INSERT INTO spare_part (name, price) VALUES ('${name}', ${price});`;
+    const { id, name, price} = vesmas;
+    const query = `INSERT INTO spare_part (id, name, price) VALUES ('${id}', '${name}', ${price});`;
     const result = await db.query(query);
     let message = 'Error in creating sparepart';
     if (result.rowCount > 0) {
@@ -53,6 +67,7 @@ async function add_sparepart(vesmas) {
     return {message};
 }
 
+//mencari spare part berdasarkan id spare part
 async function getById_sparepart(vesmas) {
     const { id } = vesmas;
     const query = `SELECT * FROM spare_part WHERE id = '${id}';`;
@@ -64,6 +79,7 @@ async function getById_sparepart(vesmas) {
     return result.rows;
 }
 
+//menambahkan informasi kendaraan baru
 async function add_vehicle(vesmas) {
     const { vin, brand, name, type} = vesmas;
     const query = `INSERT INTO vehicle (vin, brand, name, type) VALUES (${vin}, '${brand}', '${name}', '${type}');`;
@@ -78,6 +94,7 @@ async function add_vehicle(vesmas) {
     return {message};
 }
 
+//dari informasi kendaraan yang sudah ada, bisa kita edit informasi kendaraan tertentu
 async function edit_sparepart(vesmas) {
     const { id, name, price} = vesmas;
     const query = `UPDATE spare_part SET name = '${name}', price = ${price} WHERE id = '${id}';`;
@@ -93,6 +110,8 @@ async function edit_sparepart(vesmas) {
 module.exports = {
     login,
     register,
+    getByVIN_serviceRecord,
+    getByVIN_vehicle,
     add_sparepart,
     getById_sparepart,
     add_vehicle,
