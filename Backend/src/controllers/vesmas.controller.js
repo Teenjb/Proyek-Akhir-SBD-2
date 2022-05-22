@@ -34,9 +34,27 @@ async function getById_sparepart(req, res) {
     }
 }
 
+async function add_vehicle(req, res) {
+    try {
+        res.json(await vesmas.add_vehicle(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
+async function edit_sparepart(req,res) {
+    try {
+        res.json(await vesmas.edit_sparepart(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
 module.exports = {
     login,
     register,
     add_sparepart,
-    getById_sparepart
+    getById_sparepart,
+    add_vehicle,
+    edit_sparepart
 }
