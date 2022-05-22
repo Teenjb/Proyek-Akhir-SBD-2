@@ -42,8 +42,8 @@ async function getById_serviceRecord(vesmas) {
 }
 
 async function add_sparepart(vesmas) {
-    const { id, name, price} = vesmas;
-    const query = `INSERT INTO spare_part (id, name, price) VALUES ('${id}', '${name}', ${price});`;
+    const {name, price} = vesmas;
+    const query = `INSERT INTO spare_part (name, price) VALUES ('${name}', ${price});`;
     const result = await db.query(query);
     let message = 'Error in creating sparepart';
     if (result.rowCount > 0) {

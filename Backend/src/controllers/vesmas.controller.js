@@ -20,7 +20,7 @@ async function register(req, res) {
 
 async function add_sparepart(req, res) {
     try {
-        res.json(await vesmas.add_parepart(req.body));
+        res.json(await vesmas.add_sparepart(req.body));
     } catch (err) {
         res.json({error: err.detail});
     }
