@@ -1,7 +1,38 @@
-
 import './index.css';
+import React, {useState,setState, useEffect} from 'react';
+const axios = require('axios');
 
 function Login() {
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    
+    const handleInputChange = (event) => {
+      const {id, value} = event.target;
+      if(id === 'username') {
+        setUsername(value);
+      }
+      if(id === 'password') {
+        setPassword(value);
+      }
+    }
+    
+    const handleSubmit = () => {
+      console.log(username);
+      console.log(password);
+      axios.get(`http://localhost:3112/vesmas/login`, {params:{
+        username: username,
+        password: password
+      }}).then(function(response) {
+        console.log(response);
+        if(response.data.message == 'logedin') {
+          alert('logedin');
+        }else{
+          alert('password incorect');
+        } 
+        }).catch(function(error) {
+        console.log(error);
+      });
+    }
   return (
   <section className="h-full gradient-form bg-slate-200 md:h-screen">
     <div className="container mx-auto py-12 px-6 h-full">
@@ -19,16 +50,20 @@ function Login() {
                     <input
                       type="text"
                       className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border-solid border-4 border-orange-500 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none shadow-lg"
-                      id="exampleFormControlInput1"
+                      id="username"
                       placeholder="Username"
+                      value={username}
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </div>
                   <div className="mb-4">
                     <input
                       type="password"
                       className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border-4 border-solid border-orange-500 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none shadow-lg"
-                      id="exampleFormControlInput1"
+                      id="password"
                       placeholder="Password"
+                      value={password}
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </div>
                   <div className="text-center pt-1 mb-12 pb-1">
@@ -37,7 +72,7 @@ function Login() {
                       type="button"
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
-                      onClick={() => {window.location.href = '/Admin'}}
+                      onClick={() => {handleSubmit()}}
                     >
                       Log in
                     </button>

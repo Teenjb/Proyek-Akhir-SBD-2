@@ -2,7 +2,7 @@ const vesmas = require('../services/vesmas.service');
 
 async function login(req, res) {
     try {
-        const result = await vesmas.login(req.body);
+        const result = await vesmas.login(req.query);
         res.json(result);
     } catch (err) {
         res.json(err);

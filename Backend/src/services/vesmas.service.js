@@ -4,14 +4,14 @@ const helper = require('../utils/helper.util');
 //login untuk admin dan user
 async function login(vesmas) {
     const { username, password } = vesmas;
+    console.log(vesmas);
     const query = `SELECT * FROM user_account WHERE username = '${username}';`
     const result = await db.query(query);
-    //console.log(result);
     if(result.rowCount == 0) {
         return {message: 'username not found'};
     }
     if(await helper.comparePassword(password,result.rows[0].password)){
-        return result.rows;
+        return {message: 'logedin'};
     }
     return {message: 'wrong password'};
 }
