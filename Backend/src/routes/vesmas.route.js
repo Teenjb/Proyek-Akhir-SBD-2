@@ -10,6 +10,8 @@ router.get('/servicerecord', vesmasController.getByVIN_serviceRecord);
 
 router.get('/uservehicle', vesmasController.getByVIN_vehicle);
 
+router.post('/uservin', vesmasController.add_userVIN);
+
 /*----------admin----------------*/
 router.post('/sparepart', vesmasController.add_sparepart);
 

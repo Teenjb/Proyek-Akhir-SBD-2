@@ -34,7 +34,7 @@ async function register(vesmas) {
 //mencari service record berdasarkan id (username/VIN)
 async function getByVIN_serviceRecord(vesmas) {
     const { username, vin } = vesmas;
-    const query = `select user_vin.username, service_record.vin, service_record.service_date, spare_part.name, service_record.total_price from service_record inner join user_vin on service_record.vin = user_vin.vin inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
+    const query = `select user_vin.username, service_record.vin, service_record.service_date, spare_part.name from service_record inner join user_vin on service_record.vin = user_vin.vin inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
     const result = await db.query(query);
     console.log(result.rows);
     if(result.rowCount == 0) {
@@ -49,9 +49,9 @@ async function getByVIN_vehicle(vesmas) {
     const query = `select user_vin.username, vehicle.vin, vehicle.brand, vehicle.name, vehicle.type from vehicle inner join user_vin on user_vin.vin = vehicle.vin where user_vin.username = '${username}'`;
     const result = await db.query(query);
     console.log(result.rows);
-    if(result.rowCount == 0) {
-        return {message: 'vehicle not found'};
-    }
+    // if(result.rowCount == 0) {
+    //     return {message: 'vehicle not found'};
+    // }
     return result.rows;
 }
 
@@ -122,6 +122,18 @@ async function delete_sparepart(vesmas) {
     return {message};
 }
 
+async function add_userVIN (vesmas) {
+    const { vin, username} = vesmas;
+    const query = `INSERT INTO user_vin (vin, username) VALUES (${vin}, '${username}');`;
+    const result = await db.query(query);
+    let message = 'Error in creating user VIN';
+    if (result.rowCount > 0) {
+        message = 'user VIN created successfully';
+    }
+    console.log(message);
+    return {message};
+}   
+
 module.exports = {
     login,
     register,
@@ -131,5 +143,6 @@ module.exports = {
     getById_sparepart,
     add_vehicle,
     edit_sparepart,
-    delete_sparepart
+    delete_sparepart,
+    add_userVIN
 }

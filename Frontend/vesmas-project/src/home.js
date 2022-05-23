@@ -2,7 +2,7 @@ import './index.js';
 import { ListItem,List,ListItemText,Button} from '@mui/material';
 import { styled } from '@mui/material';
 import { useState,useEffect } from 'react';
-import UserProfile from './UserProfile';
+import {ReactSession} from 'react-client-session';
 const axios = require('axios');
 
 const useStyles = styled({
@@ -17,22 +17,19 @@ const useStyles = styled({
   },
 });
 
+const handleSubmit = () => {
+  window.location.href = '/UserVehicle';
+}
+
 function Home(){
   const [vehicle, setVehicle] = useState(null);
   useEffect(() => {
-    const username = UserProfile.getName();
-    console.log(username);
+    const username = ReactSession.get("username");
     axios.get(`http://localhost:3112/vesmas/uservehicle`, {params:{
           username: username
         }}).then(function(response) {
-          console.log(response);
-          if(response.data.length > 0) {
-            console.log('attached');
-            setVehicle(response.data);
-          }
-          }).catch(function(error) {
-          console.log(error);
-        });
+          setVehicle(response.data);
+          })
   }, []);
 
   if(!vehicle) {
@@ -79,7 +76,7 @@ function Home(){
                   })}
                 </List>
               </div>
-              <Button className="bg-sky-900 rounded-lg">
+              <Button className="bg-sky-900 rounded-lg" onClick={()=>{handleSubmit()}}>
                 <span className="text-white">Add Vehicle</span>
               </Button>
             </div>

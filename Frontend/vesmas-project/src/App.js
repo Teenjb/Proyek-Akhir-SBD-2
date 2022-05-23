@@ -5,10 +5,13 @@ import Admin from './Admin';
 import Register from './Register';
 import Home from './Home';
 import UserVehicle from './UserVehicle';
+import ServiceRecord from './ServiceRecord';
+import {ReactSession} from 'react-client-session';
 import './index.css';
  
 class App extends Component {
   render() {
+    ReactSession.setStoreType("localStorage");
     return (
        <Router>
            <Routes>
@@ -17,6 +20,7 @@ class App extends Component {
                  <Route exact path='/register' element={< Register />}></Route>
                  <Route exact path='/home' element={< Home />}></Route>
                  <Route exact path='/userVehicle' element={< UserVehicle />}></Route>
+                 <Route exact path='/serviceRecord' element={< ServiceRecord />}></Route>
           </Routes>
        </Router>
    );

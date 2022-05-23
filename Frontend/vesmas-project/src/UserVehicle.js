@@ -1,8 +1,34 @@
 import './index.css';
 import React, {useState,setState, useEffect} from 'react';
+import {ReactSession} from 'react-client-session';
 const axios = require('axios');
 
 function UserVehicle() {
+  const [vin,setVin] = useState(null);
+
+  const handleInputChange = (event) => {
+    const {id, value} = event.target;
+    if(id === 'vin') {
+      setVin(value);
+    }
+  }
+
+  const handleSubmit = () => {
+    axios.post(`http://localhost:3112/vesmas/uservin`, {
+      username: ReactSession.get("username"),
+      vin: vin
+    }).then(function(response) {
+      console.log(response);
+      if(response.data.message == 'user VIN created successfully') {
+        window.location.href = '/home';
+        //alert('logedin');
+      }else{
+        alert('failed to add');
+      } 
+      }).catch(function(error) {
+      console.log(error);
+    });
+  }
 
   return (
   <section className="h-full gradient-form bg-slate-200 md:h-screen">
@@ -22,6 +48,7 @@ function UserVehicle() {
                       className="form-control block lg:w-3/4 sm:w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border-solid border-4 border-orange-500 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none shadow-lg"
                       id="vin"
                       placeholder="Masukan VIN"
+                      onChange={(e) => handleInputChange(e)}
                     />
                   </div>
                   <div className="text-center pt-1 m-12 pb-1">
@@ -30,6 +57,7 @@ function UserVehicle() {
                       type="button"
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
+                      onClick={() => handleSubmit()}
                     >
                       Add
                     </button>

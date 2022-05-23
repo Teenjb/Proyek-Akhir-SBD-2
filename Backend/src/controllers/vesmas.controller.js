@@ -76,6 +76,16 @@ async function delete_sparepart(req,res) {
     }
 }
 
+async function add_userVIN(req, res) {
+    try {
+        res.json(await vesmas.add_userVIN(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
+
+
 module.exports = {
     login,
     register,
@@ -85,5 +95,6 @@ module.exports = {
     getById_sparepart,
     add_vehicle,
     edit_sparepart,
-    delete_sparepart
+    delete_sparepart,
+    add_userVIN
 }

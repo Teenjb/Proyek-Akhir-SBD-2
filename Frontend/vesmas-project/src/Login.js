@@ -1,6 +1,6 @@
 import './index.css';
 import React, {useState,setState, useEffect} from 'react';
-import UserProfile from './UserProfile';
+import {ReactSession} from 'react-client-session';
 const axios = require('axios');
 
 function Login() {
@@ -18,16 +18,13 @@ function Login() {
     }
     
     const handleSubmit = () => {
-      console.log(username);
-      console.log(password);
       axios.get(`http://localhost:3112/vesmas/login`, {params:{
         username: username,
         password: password
       }}).then(function(response) {
         console.log(response);
         if(response.data.message == 'logedin') {
-          console.log(username);
-          UserProfile.setName(username);
+          ReactSession.set("username", username);
           window.location.href = '/home';
           //alert('logedin');
         }else{
