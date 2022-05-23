@@ -2,14 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3112;
 const app = express();
+const session = require('express-session');
 const vesmasRouter = require('./src/routes/vesmas.route');
 const cors = require('cors');
+
 
 const corsOptions = {
     origin: '*',
     Credentials: true,
     optionsSuccessStatus: 200
 };
+
+app.use(session({
+    secret: 'proyeksbd',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge:6000}
+    }));
 
 app.use(cors(corsOptions));
 //app.use(express.json);

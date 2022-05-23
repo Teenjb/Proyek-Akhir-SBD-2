@@ -29,8 +29,8 @@ async function getByVIN_serviceRecord(req, res) {
 
 async function getByVIN_vehicle(req, res) {
     try {
-        console.log(req.body);
-        res.json(await vesmas.getByVIN_vehicle(req.body));
+        console.log(req.query);
+        res.json(await vesmas.getByVIN_vehicle(req.query));
     } catch (err) {
         res.json({error: err.detail});
     }

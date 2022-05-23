@@ -43,10 +43,10 @@ async function getByVIN_serviceRecord(vesmas) {
     return result.rows;
 }
 
-//menampilkan kendaraan user berdasarkan username dan VIN
+//menampilkan kendaraan user berdasarkan username
 async function getByVIN_vehicle(vesmas) {
-    const { username, vin } = vesmas;
-    const query = `select user_vin.username, vehicle.vin, vehicle.brand, vehicle.name, vehicle.type from vehicle inner join user_vin on user_vin.vin = vehicle.vin where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
+    const { username } = vesmas;
+    const query = `select user_vin.username, vehicle.vin, vehicle.brand, vehicle.name, vehicle.type from vehicle inner join user_vin on user_vin.vin = vehicle.vin where user_vin.username = '${username}'`;
     const result = await db.query(query);
     console.log(result.rows);
     if(result.rowCount == 0) {

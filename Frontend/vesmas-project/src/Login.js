@@ -1,5 +1,6 @@
 import './index.css';
 import React, {useState,setState, useEffect} from 'react';
+import UserProfile from './UserProfile';
 const axios = require('axios');
 
 function Login() {
@@ -25,7 +26,10 @@ function Login() {
       }}).then(function(response) {
         console.log(response);
         if(response.data.message == 'logedin') {
-          alert('logedin');
+          console.log(username);
+          UserProfile.setName(username);
+          window.location.href = '/home';
+          //alert('logedin');
         }else{
           alert('password incorect');
         } 
