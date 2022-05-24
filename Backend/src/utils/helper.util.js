@@ -13,14 +13,8 @@ async function comparePassword(password, hashedPassword) {
     return false;
 }
 
-//konversi tanggal ke format YYYY-MM-DD
-async function convertDate(date){
-    dateConverted = await moment(date).format("YYYY-MM-DD")
-    return dateConverted;
-}
 
 module.exports = {
     hashPassword,
-    comparePassword,
-    convertDate
+    comparePassword
 }

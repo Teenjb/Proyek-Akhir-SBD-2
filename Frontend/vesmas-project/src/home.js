@@ -21,6 +21,13 @@ const handleSubmit = () => {
   window.location.href = '/UserVehicle';
 }
 
+const handleClickListItem = value => event => {
+  console.log(value);
+  ReactSession.set("vinClicked", value.vin);
+  ReactSession.set("nameClicked", value.name);
+  window.location.href = '/ServiceRecord';
+}
+
 function Home(){
   const [vehicle, setVehicle] = useState(null);
   useEffect(() => {
@@ -68,7 +75,11 @@ function Home(){
                 <List>
                   {vehicle.map(value => {
                     return (
-                      <ListItem className="text-white bg-sky-900 my-5 w-full rounded-lg" key={value.vin} button>
+                      <ListItem className="text-white bg-sky-900 my-5 w-full rounded-lg" 
+                      key = {value.vin} 
+                      onClick={handleClickListItem(value)}
+                      button
+                      >
                         <ListItemText primary={`${value.name}`} />
                         <ListItemText className='text-right' primary={`${value.type}`} />
                       </ListItem>

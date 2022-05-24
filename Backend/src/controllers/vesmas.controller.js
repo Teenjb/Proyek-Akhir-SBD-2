@@ -20,8 +20,8 @@ async function register(req, res) {
 
 async function getByVIN_serviceRecord(req, res) {
     try {
-        console.log(req.body);
-        res.json(await vesmas.getByVIN_serviceRecord(req.body));
+        console.log(req.query);
+        res.json(await vesmas.getByVIN_serviceRecord(req.query));
     } catch (err) {
         res.json({error: err.detail});
     }

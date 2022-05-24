@@ -33,13 +33,10 @@ async function register(vesmas) {
 
 //mencari service record berdasarkan id (username/VIN)
 async function getByVIN_serviceRecord(vesmas) {
-    const { username, vin } = vesmas;
-    const query = `select user_vin.username, service_record.vin, service_record.service_date, spare_part.name from service_record inner join user_vin on service_record.vin = user_vin.vin inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where user_vin.username = '${username}' and user_vin.vin = ${vin};`;
+    const { vin } = vesmas;
+    const query = `select service_record.vin, service_record.service_date, spare_part.name, spare_part.price from service_record inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where service_record.vin = ${vin};`;
     const result = await db.query(query);
     console.log(result.rows);
-    if(result.rowCount == 0) {
-        return {message: 'service record not found'};
-    }
     return result.rows;
 }
 
