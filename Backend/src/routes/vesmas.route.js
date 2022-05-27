@@ -27,4 +27,6 @@ router.get('/homeadmin', vesmasController.get_vehicle);
 
 router.post('/servicerecord', vesmasController.add_serviceRecord);
 
+router.post('/sparepartandservicerecord', vesmasController.add_sparePart_serviceRecord);
+
 module.exports = router;

@@ -100,6 +100,14 @@ async function add_serviceRecord(req,res) {
     }
 }
 
+async function add_sparePart_serviceRecord(req,res) {
+    try {
+        res.json(await vesmas.add_sparePart_serviceRecord(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
 
 
 module.exports = {
@@ -114,5 +122,6 @@ module.exports = {
     delete_sparepart,
     add_userVIN,
     get_vehicle,
-    add_serviceRecord
+    add_serviceRecord,
+    add_sparePart_serviceRecord
 }

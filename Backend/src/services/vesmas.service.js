@@ -172,7 +172,18 @@ async function add_serviceRecord (vesmas) {
 }
 
 //add sparepart_serviceRecord
-
+async function add_sparePart_serviceRecord (vesmas) {
+    const { id_sparepart, id_servicerecord } = vesmas;
+    console.log(vesmas);
+    const query = `INSERT INTO "sparePart_serviceRecord" (id_sparepart, id_servicerecord) VALUES (${id_sparepart}, ${id_servicerecord});`;
+    const result = await db.query(query);
+    console.log(result);
+    let message = 'Spare part and service record created';
+    if(result.rowCount == 0){
+        message = 'Unable to create Spare part and service record';
+    }
+    return {message};
+}
 
 module.exports = {
     login,
@@ -186,5 +197,6 @@ module.exports = {
     delete_sparepart,
     add_userVIN,
     get_vehicle,
-    add_serviceRecord
+    add_serviceRecord,
+    add_sparePart_serviceRecord
 }
