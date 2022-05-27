@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the backend' });
+    res.json({ message: 'Welcome to the backend' });    
 });
 
 app.use('/vesmas', vesmasRouter);

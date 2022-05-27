@@ -1,5 +1,7 @@
+const { resourceLimits } = require('worker_threads');
 const db = require('../configs/db.config');
 const helper = require('../utils/helper.util');
+
 
 //login untuk admin dan user
 async function login(vesmas) {
@@ -31,12 +33,28 @@ async function register(vesmas) {
     return {message};
 }
 
+
+
 //mencari service record berdasarkan id (username/VIN)
 async function getByVIN_serviceRecord(vesmas) {
     const { vin } = vesmas;
+    console.log(vin);
     const query = `select service_record.vin, service_record.service_date, spare_part.name, spare_part.price from service_record inner join "sparePart_serviceRecord" on "sparePart_serviceRecord".id_serviceRecord = service_record.id inner join spare_part on "sparePart_serviceRecord".id_sparePart = spare_part.id where service_record.vin = ${vin};`;
     const result = await db.query(query);
-    console.log(result.rows);
+    let promise = new Promise((resolve, reject) => {
+        for(row of result.rows) {
+            var date = new Date(row['service_date']).toLocaleDateString();
+            row['service_date'] = date;
+            console.log(date);
+        }
+        resolve('done');
+        // setTimeout(() => {
+        //     resolve('done');
+        // }, 2000);
+    });
+    promise.then(() => {
+        console.log('done');
+    });
     return result.rows;
 }
 
@@ -54,8 +72,8 @@ async function getByVIN_vehicle(vesmas) {
 
 //menambahkan informasi sparepart baru oleh admin
 async function add_sparepart(vesmas) {
-    const { id, name, price} = vesmas;
-    const query = `INSERT INTO spare_part (id, name, price) VALUES ('${id}', '${name}', ${price});`;
+    const { name, price} = vesmas;
+    const query = `INSERT INTO spare_part (name, price) VALUES ('${name}', ${price});`;
     const result = await db.query(query);
     let message = 'Error in creating sparepart';
     if (result.rowCount > 0) {
@@ -66,14 +84,10 @@ async function add_sparepart(vesmas) {
 }
 
 //mencari spare part berdasarkan id spare part oleh admin
-async function getById_sparepart(vesmas) {
-    const { id } = vesmas;
-    const query = `SELECT * FROM spare_part WHERE id = '${id}';`;
+async function get_sparepart() {
+    const query = `SELECT * FROM spare_part;`;
     const result = await db.query(query);
     console.log(result.rows);
-    if(result.rowCount == 0) {
-        return {message: 'sparepart not found'};
-    }
     return result.rows;
 }
 
@@ -109,6 +123,7 @@ async function edit_sparepart(vesmas) {
 //menghapus salah satu spare part berdasarkan id nya oleh admin
 async function delete_sparepart(vesmas) {
     const { id } = vesmas;
+    console.log(id);
     const query = `DELETE FROM spare_part WHERE id = ${id};`;
     const result = await db.query(query);
     let message = 'Error in deleting sparepart';
@@ -129,7 +144,35 @@ async function add_userVIN (vesmas) {
     }
     console.log(message);
     return {message};
-}   
+}
+
+async function get_vehicle (vesmas) {
+    const { vin } = vesmas;
+    //console.log(vesmas);
+    const query = `SELECT vehicle.brand, vehicle.name, vehicle.type, vehicle.vin FROM vehicle WHERE vehicle.vin = ${vin};`;
+    const result = await db.query(query);
+    if(result.rowCount == 0){
+        message = 'Vehicle not found, creating vehicle';
+    }
+    return result.rows;
+}
+
+//add service record
+async function add_serviceRecord (vesmas) {
+    const { vin } = vesmas;
+    console.log(vesmas);
+    const query = `INSERT INTO service_record (vin) VALUES (${vin});`;
+    const result = await db.query(query);
+    console.log(result);
+    let message = 'service record created';
+    if(result.rowCount == 0){
+        message = 'Vehicle not found, creating vehicle';
+    }
+    return {message};
+}
+
+//add sparepart_serviceRecord
+
 
 module.exports = {
     login,
@@ -137,9 +180,11 @@ module.exports = {
     getByVIN_serviceRecord,
     getByVIN_vehicle,
     add_sparepart,
-    getById_sparepart,
+    get_sparepart,
     add_vehicle,
     edit_sparepart,
     delete_sparepart,
-    add_userVIN
+    add_userVIN,
+    get_vehicle,
+    add_serviceRecord
 }

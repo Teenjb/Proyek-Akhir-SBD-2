@@ -15,12 +15,16 @@ router.post('/uservin', vesmasController.add_userVIN);
 /*----------admin----------------*/
 router.post('/sparepart', vesmasController.add_sparepart);
 
-router.get('/sparepart', vesmasController.getById_sparepart);
+router.get('/sparepart', vesmasController.get_sparepart);
 
 router.post('/kendaraan', vesmasController.add_vehicle);
 
 router.put('/sparepart', vesmasController.edit_sparepart);
 
 router.delete('/sparepart', vesmasController.delete_sparepart);
+
+router.get('/homeadmin', vesmasController.get_vehicle);
+
+router.post('/servicerecord', vesmasController.add_serviceRecord);
 
 module.exports = router;

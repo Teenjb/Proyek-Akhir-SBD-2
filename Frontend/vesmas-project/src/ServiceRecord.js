@@ -8,19 +8,6 @@ function createData(serviceDate, sparePart, totalPrice) {
   return { serviceDate, sparePart, totalPrice };
 }
 
-const rows = [
-  createData('1/1/2020', 'Spare Part 1', '$100'),
-  createData('1/1/2020', 'Spare Part 2', '$200'),
-  createData('1/1/2020', 'Spare Part 3', '$300'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400'),
-  createData('1/1/2020', 'Spare Part 4', '$400')
-];
-
 function ServiceRecord() {
   const vin = ReactSession.get("vinClicked");
   const name = ReactSession.get("nameClicked");
@@ -52,9 +39,9 @@ function ServiceRecord() {
           <h1 className="text-right text-2xl font-bold text-white">{name}</h1>
         </div>
         <div className="xl:w-full h-96">
-          <TableContainer className='border-sky-900 border-4 h-full scrollbar-hide scroll-smooth rounded-lg'>
+          <TableContainer className='h-full scrollbar-hide scroll-smooth rounded-lg'>
             <Table>
-              <TableHead className='sticky top-0 bg-sky-900'>
+              <TableHead className='border-4 border-sky-900 sticky top-0 bg-sky-900'>
                 <TableRow>
                   <TableCell className='text-white text-xl text-center'>SERVICE DATE</TableCell>
                   <TableCell className='text-white text-xl text-center'>SPARE PART</TableCell>
@@ -65,11 +52,11 @@ function ServiceRecord() {
                 {serviceRecord.map((row) => (
                   <TableRow
                     key={row.serviceDate}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    className="font-bold border-sky-900 border-4"
                   >
-                    <TableCell >{row.service_date}</TableCell>
-                    <TableCell >{row.name}</TableCell>
-                    <TableCell >{row.price}</TableCell>
+                    <TableCell className='text-center' >{row.service_date}</TableCell>
+                    <TableCell className='text-center' >{row.name}</TableCell>
+                    <TableCell className='text-center' >{row.price}</TableCell>
                   </TableRow>
                 ))} 
               </TableBody>

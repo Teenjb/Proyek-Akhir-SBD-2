@@ -44,9 +44,9 @@ async function add_sparepart(req, res) {
     }
 }
 
-async function getById_sparepart(req, res) {
+async function get_sparepart(req, res) {
     try {
-        res.json(await vesmas.getById_sparepart(req.body));
+        res.json(await vesmas.get_sparepart());
     } catch (err) {
         res.json({error: err.detail});
     }
@@ -70,7 +70,7 @@ async function edit_sparepart(req,res) {
 
 async function delete_sparepart(req,res) {
     try {
-        res.json(await vesmas.delete_sparepart(req.body));
+        res.json(await vesmas.delete_sparepart(req.query));
     } catch (err) {
         res.json({error: err.detail});
     }
@@ -84,6 +84,22 @@ async function add_userVIN(req, res) {
     }
 }
 
+async function get_vehicle(req,res) {
+    try {
+        res.json(await vesmas.get_vehicle(req.query));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
+async function add_serviceRecord(req,res) {
+    try {
+        res.json(await vesmas.add_serviceRecord(req.body));
+    } catch (err) {
+        res.json({error: err.detail});
+    }
+}
+
 
 
 module.exports = {
@@ -92,9 +108,11 @@ module.exports = {
     add_sparepart,
     getByVIN_serviceRecord,
     getByVIN_vehicle,
-    getById_sparepart,
+    get_sparepart,
     add_vehicle,
     edit_sparepart,
     delete_sparepart,
-    add_userVIN
+    add_userVIN,
+    get_vehicle,
+    add_serviceRecord
 }
