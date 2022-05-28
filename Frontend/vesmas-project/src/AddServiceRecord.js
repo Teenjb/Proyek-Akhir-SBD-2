@@ -1,15 +1,19 @@
 import './index.css';
 import React, {useState,setState, useEffect} from 'react';
 import {ReactSession} from 'react-client-session';
-import { Select, MenuItem } from '@mui/material';
+import { Select, MenuItem, Backdrop, CircularProgress } from '@mui/material';
 const axios = require('axios');
 
 
 function AddServiceRecord() {
-    const [formValues, setFormValues] = useState([{ name: "", price : ""}])
+    const [formValues, setFormValues] = useState([{id:"", name: "", price : ""}])
     const [sparePart, setSparePart] = useState(null);
+    const [vin, setVin] = useState(null);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
+      setVin(ReactSession.get("vinServiced"));
+      console.log(vin);
       axios.get(`http://localhost:3112/vesmas/sparepart`).then(function(response) {
             console.log(response);
             setSparePart(response.data);
@@ -28,6 +32,7 @@ function AddServiceRecord() {
 
     let handleChange = (i, e) => {
         let newFormValues = [...formValues];
+        newFormValues[i].id= e.target.value.id;
         newFormValues[i].name = e.target.value.name;
         newFormValues[i].price = e.target.value.price;
         setFormValues(newFormValues);
@@ -35,7 +40,7 @@ function AddServiceRecord() {
       }
     
     let addFormFields = () => {
-        setFormValues([...formValues, { name: "", price: "" }])
+        setFormValues([...formValues, {id:"", name: "", price: "" }])
       }
     
     let removeFormFields = (i) => {
@@ -44,13 +49,46 @@ function AddServiceRecord() {
         setFormValues(newFormValues)
     }
     
-    let handleSubmit = (event) => {
-        event.preventDefault();
-        alert(JSON.stringify(formValues));
+    let handleSubmit = () => {
+        setOpen(true);
+        let users = [];
+        let promises = [];
+        console.log(vin);
+        let promise = new Promise((resolve, reject) => {
+            axios.post(`http://localhost:3112/vesmas/servicerecord`, {
+            vin:vin
+            }).then(function(response) {
+                if(response.data.id != null) {
+                    console.log(response.data.id);
+                }else{
+                    alert('Something went wrong');
+                } 
+                resolve(response.data.id);
+            });
+        });
+        promise.then(function(value){
+            console.log(value + " idloaded");
+            for(let i = 0; i < formValues.length; i++) {
+                console.log('loading upload');
+                promises.push(axios.post(`http://localhost:3112/vesmas/sparepartandservicerecord`, {
+                    id_sparepart: formValues[i].id,
+                    id_servicerecord: value
+                }).then(function(response) {
+                    users.push(response.data);
+                }));
+            }
+            Promise.all(promises).then(() => {console.log(users);setOpen(false);window.location.href='/HomeAdmin';});
+        });
     }
 
     return (
      <section className="h-full gradient-form bg-slate-200 md:h-screen">
+        <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        >
+            <CircularProgress className='text-orange-500' />
+        </Backdrop>
         <div className="container mx-auto py-12 px-6 h-full">
             <div className="flex justify-center items-center flex-col h-full g-6 text-gray-800">
                 <div className="text-center">
@@ -92,7 +130,7 @@ function AddServiceRecord() {
                 </div> 
                 <div className="flex justify-center items-center bg-orange-500 w-9/12 rounded-lg mt-4 h-16">
                             <button className="inline-block px-6 py-2.5 mx-2 bg-sky-900 hover:border-2 hover:border-slate-200 text-white font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-24" type="button" onClick={() => addFormFields()}>Add</button>
-                            <button className="inline-block px-6 py-2.5 mx-2 bg-sky-900 hover:border-2 hover:border-slate-200 text-white font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-24" type="submit">Submit</button>
+                            <button className="inline-block px-6 py-2.5 mx-2 bg-sky-900 hover:border-2 hover:border-slate-200 text-white font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-24" type="submit" onClick={()=>handleSubmit()}>Submit</button>
                 </div>
             </div> 
         </div>

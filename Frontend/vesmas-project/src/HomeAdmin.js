@@ -1,5 +1,6 @@
 import './index.js';
-import { ListItem,List,ListItemText,Button} from '@mui/material';
+import { ListItem,List,ListItemText,Button,Avatar} from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { styled } from '@mui/material';
 import { useState,useEffect } from 'react';
 import {ReactSession} from 'react-client-session';
@@ -10,6 +11,8 @@ function HomeAdmin(){
   const [vin, setVin] = useState(null);
   const [data, setData] = useState(null);
   const [vinValid, setVinValid] = useState(false);
+  const [username, setUsername] = useState(null);
+  const [inisial, setInisial] = useState(null);
 
   const handleInputChange = (event) => {
     const {id, value} = event.target;
@@ -28,6 +31,11 @@ function HomeAdmin(){
       setVinValid(true);
     }
     setVin(value);
+  }
+
+  const handleLogout = () => {
+    ReactSession.set("usernameAdmin",null);
+    window.location.href = '/';
   }
 
   
@@ -57,6 +65,8 @@ function HomeAdmin(){
   }
 
   useEffect(() => {
+  setUsername(ReactSession.get("usernameAdmin"));
+  setInisial(ReactSession.get("usernameAdmin").charAt(0));
     axios.get(`http://localhost:3112/vesmas/sparepart`).then(function(response) {
           setSparePart(response.data);
           })
@@ -66,6 +76,15 @@ function HomeAdmin(){
   <section className="h-full gradient-form bg-slate-200 md:h-screen">
     <div className="container mx-auto py-12 px-6 h-full">
       <div className="flex justify-center flex-col items-center flex-nowrap h-full g-6">
+      <div className='absolute top-0 left-0 m-5'>
+        <Button className="flex justify-start flex-wrap text-left bg-sky-900 text-white rounded-lg">
+          <Avatar className='ml-2 my-1'>{inisial}</Avatar>
+          <p className='mx-3 text-lg'>Hi! {username}</p>
+        </Button>
+        <Button className='bg-orange-500 mt-2' onClick={()=>{handleLogout()}}>
+          <LogoutIcon className='text-sky-900'/>
+        </Button>
+      </div>
       <h4 className="text-3xl text-sky-900 font-bold mt-1 mb-12 pb-1 ">Welcome to ADMIN VESMAS</h4>
         <div className="flex justify-center items-center flex-wrap h-full w-full g-6">
         <div className="xl:w-1/2 px-12 h-full">

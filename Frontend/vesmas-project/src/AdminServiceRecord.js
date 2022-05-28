@@ -59,7 +59,7 @@ function AdminServiceRecord() {
       }else{
         window.location.href = '/addservicerecord';
       }
-      
+      ReactSession.set("vinServiced",vin||vins);
     }
 
   return (

@@ -13,7 +13,11 @@ async function login(vesmas) {
         return {message: 'username not found'};
     }
     if(await helper.comparePassword(password,result.rows[0].password)){
-        return {message: 'logedin'};
+        if(result.rows[0].admin == true) {
+            return {message: 'logedin admin'};
+        }else{
+            return {message: 'logedin'};
+        }
     }
     return {message: 'wrong password'};
 }
@@ -161,14 +165,10 @@ async function get_vehicle (vesmas) {
 async function add_serviceRecord (vesmas) {
     const { vin } = vesmas;
     console.log(vesmas);
-    const query = `INSERT INTO service_record (vin) VALUES (${vin});`;
+    const query = `INSERT INTO service_record (vin) VALUES (${vin}) RETURNING id;`;
     const result = await db.query(query);
     console.log(result);
-    let message = 'service record created';
-    if(result.rowCount == 0){
-        message = 'Vehicle not found, creating vehicle';
-    }
-    return {message};
+    return{id: result.rows[0].id};
 }
 
 //add sparepart_serviceRecord

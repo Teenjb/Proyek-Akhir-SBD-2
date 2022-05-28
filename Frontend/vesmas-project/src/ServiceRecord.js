@@ -1,7 +1,7 @@
 import './index.css';
 import React, {useState,setState, useEffect} from 'react';
 import {ReactSession} from 'react-client-session';
-import { Button,Table, TableBody, TableContainer, TableHead, TableRow, TableCell } from '@mui/material';
+import { Button,Table, TableBody, TableContainer, TableHead, TableRow, TableCell} from '@mui/material';
 const axios = require('axios');
 
 function createData(serviceDate, sparePart, totalPrice) {
@@ -12,6 +12,7 @@ function ServiceRecord() {
   const vin = ReactSession.get("vinClicked");
   const name = ReactSession.get("nameClicked");
   const [serviceRecord, setServiceRecord] = useState(null);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     axios.get(`http://localhost:3112/vesmas/servicerecord`, {params:{
           vin: vin
@@ -38,21 +39,21 @@ function ServiceRecord() {
         <div className="flex justify-end items-center xl:w-full h-16 bg-sky-900 mb-4 px-12 rounded-lg">
           <h1 className="text-right text-2xl font-bold text-white">{name}</h1>
         </div>
-        <div className="xl:w-full h-96">
+        <div className="xl:w-full h-96 border-4 border-sky-900 rounded-xl">
           <TableContainer className='h-full scrollbar-hide scroll-smooth rounded-lg'>
             <Table>
-              <TableHead className='border-4 border-sky-900 sticky top-0 bg-sky-900'>
+              <TableHead className='sticky top-0 bg-sky-900'>
                 <TableRow>
-                  <TableCell className='text-white text-xl text-center'>SERVICE DATE</TableCell>
-                  <TableCell className='text-white text-xl text-center'>SPARE PART</TableCell>
-                  <TableCell className='text-white text-xl text-center'>TOTAL PRICE</TableCell>  
+                  <TableCell className='text-white text-xl w-1/3 text-center'>SERVICE DATE</TableCell>
+                  <TableCell className='text-white text-xl w-1/3 text-center'>SPARE PART</TableCell>
+                  <TableCell className='text-white text-xl w-1/3 text-center'>PRICE</TableCell>  
                 </TableRow>
               </TableHead>
               <TableBody>
                 {serviceRecord.map((row) => (
                   <TableRow
                     key={row.serviceDate}
-                    className="font-bold border-sky-900 border-4"
+                    className="font-bold border-sky-900 border-b-2"
                   >
                     <TableCell className='text-center' >{row.service_date}</TableCell>
                     <TableCell className='text-center' >{row.name}</TableCell>
