@@ -14,7 +14,7 @@ function ServiceRecord() {
   const [serviceRecord, setServiceRecord] = useState(null);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    axios.get(`http://localhost:3112/vesmas/servicerecord`, {params:{
+    axios.get(`https://vesmas.azurewebsites.net/vesmas/servicerecord`, {params:{
           vin: vin
         }}).then(function(response) {
           console.log(response.data);

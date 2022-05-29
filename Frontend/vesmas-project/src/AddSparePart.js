@@ -18,7 +18,7 @@ function AddSparePart() {
     }
     
     const handleSubmit = () => {
-      axios.post(`http://localhost:3112/vesmas/sparepart`, {
+      axios.post(`https://vesmas.azurewebsites.net/vesmas/sparepart`, {
         name: name,
         price: price
       }).then(function(response) {

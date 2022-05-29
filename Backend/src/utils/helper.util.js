@@ -1,5 +1,4 @@
-const bcrypt = require('bcrypt');
-const moment = require('moment');
+const bcrypt = require('bcryptjs');
 
 async function hashPassword(password) {
     hashedPassword = await bcrypt.hash(password, 10);

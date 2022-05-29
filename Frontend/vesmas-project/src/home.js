@@ -31,7 +31,7 @@ function Home(){
     const username = ReactSession.get("username");
     setUsername(username);
     setInisial(username.charAt(0));
-    axios.get(`http://localhost:3112/vesmas/uservehicle`, {params:{
+    axios.get(`https://vesmas.azurewebsites.net/vesmas/uservehicle`, {params:{
           username: username
         }}).then(function(response) {
           setVehicle(response.data);

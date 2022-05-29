@@ -14,7 +14,7 @@ function AddServiceRecord() {
     useEffect(() => {
       setVin(ReactSession.get("vinServiced"));
       console.log(vin);
-      axios.get(`http://localhost:3112/vesmas/sparepart`).then(function(response) {
+      axios.get(`https://vesmas.azurewebsites.net/vesmas/sparepart`).then(function(response) {
             console.log(response);
             setSparePart(response.data);
             })
@@ -55,7 +55,7 @@ function AddServiceRecord() {
         let promises = [];
         console.log(vin);
         let promise = new Promise((resolve, reject) => {
-            axios.post(`http://localhost:3112/vesmas/servicerecord`, {
+            axios.post(`https://vesmas.azurewebsites.net/vesmas/servicerecord`, {
             vin:vin
             }).then(function(response) {
                 if(response.data.id != null) {
@@ -70,7 +70,7 @@ function AddServiceRecord() {
             console.log(value + " idloaded");
             for(let i = 0; i < formValues.length; i++) {
                 console.log('loading upload');
-                promises.push(axios.post(`http://localhost:3112/vesmas/sparepartandservicerecord`, {
+                promises.push(axios.post(`https://vesmas.azurewebsites.net/vesmas/sparepartandservicerecord`, {
                     id_sparepart: formValues[i].id,
                     id_servicerecord: value
                 }).then(function(response) {

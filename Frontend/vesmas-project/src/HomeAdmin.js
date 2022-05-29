@@ -16,7 +16,7 @@ function HomeAdmin(){
 
   const handleInputChange = (event) => {
     const {id, value} = event.target;
-    axios.get(`http://localhost:3112/vesmas/homeadmin`,{params:{
+    axios.get(`https://vesmas.azurewebsites.net/vesmas/homeadmin`,{params:{
         vin: value
         }}).then(function(response) {
           if(response.data.length > 0){
@@ -67,7 +67,7 @@ function HomeAdmin(){
   useEffect(() => {
   setUsername(ReactSession.get("usernameAdmin"));
   setInisial(ReactSession.get("usernameAdmin").charAt(0));
-    axios.get(`http://localhost:3112/vesmas/sparepart`).then(function(response) {
+    axios.get(`https://vesmas.azurewebsites.net/vesmas/sparepart`).then(function(response) {
           setSparePart(response.data);
           })
   }, []);

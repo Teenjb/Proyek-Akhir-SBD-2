@@ -30,7 +30,7 @@ function EditSparePart() {
       const {id} = event.target;
       console.log(idClicked,id,name,price)
       if(id === 'edit'){
-        axios.put(`http://localhost:3112/vesmas/sparepart`, {
+        axios.put(`https://vesmas.azurewebsites.net/vesmas/sparepart`, {
           id: idClicked,
           name: name,
           price: price
@@ -46,7 +46,7 @@ function EditSparePart() {
         });
       }
       if(id === 'delete'){
-        axios.delete(`http://localhost:3112/vesmas/sparepart`,{params:{
+        axios.delete(`https://vesmas.azurewebsites.net/vesmas/sparepart`,{params:{
           id: idClicked
         }}).then(function(response) {
           console.log(response);

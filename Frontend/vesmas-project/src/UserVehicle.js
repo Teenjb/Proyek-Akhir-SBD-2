@@ -14,7 +14,7 @@ function UserVehicle() {
   }
 
   const handleSubmit = () => {
-    axios.post(`http://localhost:3112/vesmas/uservin`, {
+    axios.post(`https://vesmas.azurewebsites.net/vesmas/uservin`, {
       username: ReactSession.get("username"),
       vin: vin
     }).then(function(response) {

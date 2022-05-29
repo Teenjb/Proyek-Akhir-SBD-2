@@ -41,7 +41,7 @@ function AdminServiceRecord() {
     
     const handleSubmit = () => {
       if(!status){
-      axios.post(`http://localhost:3112/vesmas/kendaraan`, {
+      axios.post(`https://vesmas.azurewebsites.net/vesmas/kendaraan`, {
         vin:vins,
         brand:brand,
         type:type,

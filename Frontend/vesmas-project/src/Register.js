@@ -21,7 +21,7 @@ const handleInputChange = (event) => {
 const handleSubmit = () => {
   console.log(username);
   console.log(password);
-  axios.post('http://localhost:3112/vesmas/register', {
+  axios.post('https://vesmas.azurewebsites.net/vesmas/register', {
     username: username,
     password: password,
     admin: false

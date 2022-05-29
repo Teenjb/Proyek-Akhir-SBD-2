@@ -1,4 +1,3 @@
-const { resourceLimits } = require('worker_threads');
 const db = require('../configs/db.config');
 const helper = require('../utils/helper.util');
 

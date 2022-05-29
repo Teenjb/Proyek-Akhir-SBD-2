@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/3d6f8240-a456-481f-815b-3253e62642c2/microsoft.web/sites/subscriptions/3d6f8240-a456-481f-815b-3253e62642c2/resourceGroups/vesmas-project/providers/Microsoft.Web/sites/vesmas",
+    "appService.deploySubpath": "."
+}

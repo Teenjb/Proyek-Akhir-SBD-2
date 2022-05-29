@@ -18,7 +18,7 @@ function LoginAdmin() {
     }
     
     const handleSubmit = () => {
-      axios.get(`http://localhost:3112/vesmas/login`, {params:{
+      axios.get(`https://vesmas.azurewebsites.net/vesmas/login`, {params:{
         username: username,
         password: password
       }}).then(function(response) {
